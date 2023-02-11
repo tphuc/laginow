@@ -7,6 +7,7 @@ import { Provider as RWBProvider } from "react-wrap-balancer";
 import cx from "classnames";
 import localFont from "@next/font/local";
 import { Inter } from "@next/font/google";
+import { trpc } from '@/lib/trpc';
 
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
@@ -18,10 +19,11 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default function MyApp({
+
+const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps<{ session: Session }>) {
+}: AppProps<{ session: Session }>) => {
   return (
     <SessionProvider session={session}>
       <RWBProvider>
@@ -33,3 +35,5 @@ export default function MyApp({
     </SessionProvider>
   );
 }
+
+export default trpc.withTRPC(MyApp);

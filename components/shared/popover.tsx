@@ -28,13 +28,16 @@ export default function Popover({
           <PopoverPrimitive.Trigger className="inline-flex" asChild>
             {children}
           </PopoverPrimitive.Trigger>
+          <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
             sideOffset={4}
             align={align}
             className="z-20 animate-slide-up-fade items-center rounded-md border border-gray-200 bg-white drop-shadow-lg"
           >
+           
             {content}
           </PopoverPrimitive.Content>
+          </PopoverPrimitive.Portal>
         </PopoverPrimitive.Root>
       )}
     </>

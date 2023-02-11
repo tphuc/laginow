@@ -11,7 +11,7 @@ import UserDropdown from "./user-dropdown";
 import MenuDropdown from "./menu-dropdown";
 import NavbarLinks from "./navbar-links";
 
-export default function Layout({
+export default function PageLayout({
   meta,
   children,
 }: {
@@ -32,24 +32,23 @@ export default function Layout({
       <SignInModal />
 
       <div
-        className={`fixed top-0 w-full bg-white ${scrolled
-            ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl"
+        className={`w-full bg-white ${scrolled
+            ? "border-b border-gray-200  backdrop-blur-xl"
             : "bg-white/0"
           } z-30 transition-all`}
       >
-        <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
+        <div className="flex h-16 px-5 items-center justify-between xl:mx-auto">
           <Link href="/" className="flex items-center font-display text-2xl">
             <Image
-              src="/laginow.svg"
+              src="/logo.png"
               alt="Precedent logo"
-              width="120"
-              height="60"
+              width="35"
+              height="35"
               className="mr-2 rounded-sm"
             />
  
           </Link>
           <div className="gap-2 hidden sm:flex items-center">
-            <NavbarLinks/>
             <AnimatePresence>
               {!session && status !== "loading" ? (
                 <motion.button
@@ -71,7 +70,7 @@ export default function Layout({
         </div>
       </div>
       {/* bg-gradient-to-br from-indigo-50 via-white to-cyan-100 */}
-      <main className="w-full pt-5 bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+      <main className="w-full bg-gray-100 min-h-[100vh]">
         {children}
       </main>
 

@@ -9,7 +9,9 @@
       "@/components/*": ["components/*"],
       "@/pages/*": ["pages/*"],
       "@/lib/*": ["lib/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@/server/*": ["server/*"],
+
     },
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,6 +24,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/auth/[...nextauth].js"],
   "exclude": ["node_modules"]
 }

@@ -1,29 +1,32 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator client {
+  provider = "prisma-client-js"
 }
 
-generator client {
-  provider        = "prisma-client-js"
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -32,16 +35,24 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id               String             @id @default(nanoid(7))
+  name             String?
+  email            String?            @unique
+  emailVerified    DateTime?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  businesses       Bussiness[]
+  posts            Post[]
+  reviews          Review[]
+  UserViewBusiness UserViewBusiness[]
+
+  @@index([email])
 }
 
 model VerificationToken {
@@ -50,4 +61,127 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @unique @default(now())
+  updatedAt DateTime @unique @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId    String?
+  slug      String   @unique
+  title     String
+  content   String
+  images    Json
+
+  @@unique([title, slug])
+  @@index([slug])
+  @@index([userId])
+}
+
+model Collection {
+  id        String      @id @default(cuid())
+  slug      String      @unique
+  title     String
+  Bussiness Bussiness[]
+
+  @@unique([title, slug])
+  @@index([slug])
+}
+
+model Bussiness {
+  id            String       @id @default(nanoid(7))
+  createdAt     DateTime     @unique @default(now())
+  updatedAt     DateTime     @unique @default(now())
+  title         String       @unique
+  slug          String       @unique
+  logo          String?
+  owner         User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  ownerId       String?
+  inCollections Collection[]
+  images        Json?
+  description   String?
+
+  tags        Tag[]
+  MasterTag   MasterTag? @relation(fields: [masterTagId], references: [id])
+  masterTagId String?
+
+  // contact information
+  phone   String?
+  website String?
+  address String?
+
+  // working hours
+  monStartHr String?
+  monEndHr   String?
+  tueStartHr String?
+  tueEndHr   String?
+  wedStartHr String?
+  wedEndHr   String?
+  thuStartHr String?
+  thuEndHr   String?
+  friStartHr String?
+  friEndHr   String?
+  satStartHr String?
+  satEndHr   String?
+  sunStartHr String?
+  sunEndHr   String?
+
+  published Boolean @default(false)
+
+  // 
+  UserViewBusiness UserViewBusiness[]
+
+  @@index([title, slug, createdAt, ownerId])
+  @@index([ownerId])
+  @@index([masterTagId])
+}
+
+model Review {
+  id      String  @id @default(cuid())
+  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String?
+  content String  @db.Text
+
+  @@index([userId])
+}
+
+model Tag {
+  id   String @id @default(nanoid(4))
+  name String @unique
+  slug String @unique
+
+  MasterTag   MasterTag?  @relation(fields: [masterTagId], references: [id])
+  masterTagId String?
+  business    Bussiness[]
+
+  @@index([masterTagId])
+  @@index([slug])
+}
+
+model MasterTag {
+  id        String      @id @default(nanoid(4))
+  name      String      @unique
+  tags      Tag[]
+  Bussiness Bussiness[]
+}
+
+model UserViewBusiness {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  business    Bussiness @relation(fields: [bussinessId], references: [id])
+  createdAt   DateTime  @unique @default(now())
+  context     UserViewBusinessContext
+  userId      String
+  bussinessId String
+
+  @@index([userId])
+  @@index([bussinessId])
+}
+
+enum UserViewBusinessContext {
+  page
+  photo
+  contact
+  ad
 }

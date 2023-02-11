@@ -5,11 +5,9 @@ import Popover from "@/components/shared/popover";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
-import Link from "next/link";
-import { Portal } from "@radix-ui/react-popover";
 
 
-export default function UserDropdown() {
+export default function BusinessDropdown({ children }: any) {
   const session = useSession().data as any;
 
   const { email, image } = session?.user || {};
@@ -18,45 +16,20 @@ export default function UserDropdown() {
   if (!email) return null;
 
   return (
-   
     <motion.div
-    data-boundary="viewport"
       className="relative inline-block text-left"
       {...FADE_IN_ANIMATION_SETTINGS}
     >
-      
       <Popover
         content={
-
-          <div data-boundary="viewport" className="w-full z-10 rounded-md bg-white text-blue-900 p-2 sm:w-56">
-            <Link
-              href={`/u/${session?.user?.id}/t`}
-              className="relative outline-none  flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              <p className="text-sm">Trang quản lí</p>
-
-
-            </Link>
-
-           
-
-            <button
-              className="relative outline-none flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
-              onClick={() => signOut({ redirect: false })}
-            >
-              <LogOut className="h-4 w-4" />
-              <p className="text-sm">Logout</p>
-            </button>
+          <div className="w-full rounded-md bg-white text-blue-900 p-2 sm:w-56">
+            {children}
           </div>
-
         }
         align="end"
-        
         openPopover={openPopover}
         setOpenPopover={setOpenPopover}
       >
-        
         <button
           onClick={() => setOpenPopover(!openPopover)}
           className="flex border border-gray-300 border-1 h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 outline-none ring-none active:scale-95 sm:h-9 sm:w-9"
@@ -68,10 +41,7 @@ export default function UserDropdown() {
             height={40}
           />
         </button>
-    
       </Popover>
-      
     </motion.div>
-
   );
 }
