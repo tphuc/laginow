@@ -18,7 +18,6 @@ export default function Home() {
 
   return (
     <Layout>
-
       <br />
       <div className="flex flex-col items-center justify-center">
         <motion.div

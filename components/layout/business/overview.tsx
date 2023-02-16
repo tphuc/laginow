@@ -24,15 +24,12 @@ ChartJS.register(
     Legend
 );
 
-
-
-
 const labels = ['1/2', '2/2', '3/2', '4/2', '5/2', '6/2', '7/2']
 
 const Line = dynamic(() => import('react-chartjs-2').then(m => m.Line), { ssr: false });
 
 export default function BusinessOverview() {
-    return <div className="flex px-1 md:px-3 w-full flex-wrap-reverse gap-2">
+    return  <div className="flex px-1 py-2 md:px-3 w-full flex-wrap-reverse gap-2">
         <div className="flex-1 h-auto flex flex-col items-start justify-start">
             <div className="grid w-full grid-cols-1 gap-2 grid-rows-auto sm:grid-cols-2 md:grid-cols-3">
 
@@ -78,7 +75,6 @@ export default function BusinessOverview() {
                     width={'100%'}
 
                     options={{
-
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
@@ -87,27 +83,20 @@ export default function BusinessOverview() {
                             },
                             title: {
                                 display: false,
-
                             },
                         },
                         scales: {
-
                             y: {
-
                                 grid: {
                                     display: false
                                 },
                                 ticks: {
-
                                 },
-
                             },
                             x: {
                                 grid: {
                                     display: false
                                 },
-
-
                             }
                         }
                     }}

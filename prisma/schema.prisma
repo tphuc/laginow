@@ -132,7 +132,7 @@ model Bussiness {
   // 
   UserViewBusiness UserViewBusiness[]
 
-  @@index([title, slug, createdAt, ownerId])
+  @@index([slug])
   @@index([ownerId])
   @@index([masterTagId])
 }

@@ -15,6 +15,9 @@ import * as Tabs from '@radix-ui/react-tabs';
 import clsx from "clsx";
 import UserDropdown from "@/components/layout/user-dropdown";
 import BusinessOverview from "@/components/layout/business/overview";
+import BusinessPageDecoration from "@/components/layout/business/business-page";
+import { ReactNode } from "react";
+import { useRouter } from "next/router";
 
 
 let tabItemClsx = clsx(
@@ -27,34 +30,28 @@ let tabItemClsx = clsx(
     "focus:z-10 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
 )
 
-export default function Page() {
-
-    const { data: yourBusinesses, isLoading } = trpc.business.getAllByUser.useQuery({});
-    const session = useSession().data as any
+const Page = () => {
 
     return (
-        <PageLayout>
-            <Tabs.Root defaultValue="1" orientation="vertical">
+        <div>
+        <Tabs.Content value='/tong-quan'>
+            <BusinessOverview />
+        </Tabs.Content>
+        <Tabs.Content value='/trang-tri'>
+            <BusinessPageDecoration />
+        </Tabs.Content>
+        </div>
 
-                <Tabs.List className="px-5 py-1.5 sticky top-0 z-[1] flex overflow-x-scroll gap-1 bg-white border-b border-gray-200" aria-label="tabs example">
-                    <Tabs.Trigger className={tabItemClsx} value="1">Tổng quan</Tabs.Trigger>
-                    <Tabs.Trigger className={tabItemClsx} value="2">Thông tin trang</Tabs.Trigger>
-                    <Tabs.Trigger className={tabItemClsx} value="3">Three</Tabs.Trigger>
-                    <Tabs.Trigger className={tabItemClsx} value="4">Four</Tabs.Trigger>
-                    <Tabs.Trigger className={tabItemClsx} value="5">Five</Tabs.Trigger>
-                </Tabs.List>
-                <div style={{ flex: 1 }} className="p-2">
-                    <Tabs.Content className="flex" value="1">
-                        <BusinessOverview></BusinessOverview>
-                    </Tabs.Content>
-                    <Tabs.Content className="flex" value="2">Tab two content</Tabs.Content>
-                    <Tabs.Content className="flex" value="3">Tab three content</Tabs.Content>
-                </div>
-            </Tabs.Root>
-        </PageLayout>
     );
 }
 
 
+Page.getLayout = (content: ReactNode) => {
+    return <PageLayout>
+        {content}
+    </PageLayout>
+}
 
 
+
+export default Page

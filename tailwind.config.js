@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       data:{
         active: 'state="active"',
+        on: 'state="on"'
       },
       aspectRatio: {
         '4/3': '4 / 3',
@@ -24,6 +25,8 @@ module.exports = {
       animation: {
         // Tooltipanimation: {
         blink: 'blink 1.4s infinite both',
+        slideDown: 'slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)',
+        slideUp: 'slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)',
         "slide-up-fade": "slide-up-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
         "slide-down-fade": "slide-down-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       },
@@ -38,6 +41,14 @@ module.exports = {
           '100%': {
             opacity: ' 0.2',
           },
+        },
+        slideDown: {
+          from: { height: 0 },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        slideUp: {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: 0 },
         },
         // Tooltip
         "slide-up-fade": {

@@ -80,9 +80,46 @@ export const businessRouter = router({
         .mutation(async ({ input, ctx }) => {
             let data = input.data;
 
-            const post = await prisma.post.update({
+            const post = await prisma.bussiness.update({
                 where: {
                     id: input.id
+                },
+                data,
+            });
+            return post;
+        }),
+
+        updateBySlug: protectedProcedure
+        .input(
+            z.object({
+                slug: z.string(),
+                data: z.object({
+                    title: z.string().optional(),
+                    slug: z.string().optional(),
+                    content: z.string().optional(),
+                    address: z.string().optional(),
+                    phone: z.string().optional(),
+                    images: z.array(
+                        z.object({
+                            fileId: z.string(),
+                            name: z.string(),
+                            url: z.string(),
+                            thumbnailUrl: z.string(),
+                            width: z.number(),
+                            height: z.number(),
+                            size: z.number()
+                        })
+                    )
+                })
+
+            }),
+        )
+        .mutation(async ({ input, ctx }) => {
+            let data = input.data;
+            console.log(input.slug)
+            const post = await prisma.bussiness.update({
+                where: {
+                    slug: input.slug
                 },
                 data,
             });
