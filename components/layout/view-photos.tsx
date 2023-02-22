@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import clsx from "clsx";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 const PhotosGrid = ({
   show,
@@ -40,7 +41,7 @@ const PhotosGrid = ({
           </div>)}
         </div>
       </div>
-      <a href='/'></a>
+      <Link href='/'></Link>
 
     </Modal>
   );
