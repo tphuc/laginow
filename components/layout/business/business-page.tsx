@@ -119,7 +119,7 @@ export default function BusinessPageDecoration() {
     const updateWorkingHrs = async () => {
 
         if (!getValues('workingHrs') as any) {
-            return 
+            return
         }
 
 
@@ -149,7 +149,7 @@ export default function BusinessPageDecoration() {
 
 
     const isOpening = React.useCallback(() => {
-        if(!data?.workingHrs){
+        if (!data?.workingHrs) {
             return null
         }
 
@@ -159,47 +159,47 @@ export default function BusinessPageDecoration() {
         let workingHrToday = workingHours[day]
 
         let currentHr = new Date().getHours()
-        if(workingHrToday.isOpen24Hours){
+        if (workingHrToday.isOpen24Hours) {
             return true
         }
-        
-        if(workingHrToday.openingHour < workingHrToday.closingHour){
-            if( workingHrToday.openingHour <= currentHr && currentHr <= workingHrToday.closingHour ){
+
+        if (workingHrToday.openingHour < workingHrToday.closingHour) {
+            if (workingHrToday.openingHour <= currentHr && currentHr <= workingHrToday.closingHour) {
                 return true
             }
-            else{
+            else {
                 return false
             }
         }
         else {
-            if( workingHrToday.openingHour >= currentHr && currentHr >= workingHrToday.closingHour ){
+            if (workingHrToday.openingHour >= currentHr && currentHr >= workingHrToday.closingHour) {
                 return true
             }
-            else{
+            else {
                 return false
             }
         }
     }, [data?.workingHrs])
 
-    const getOpeningHr = React.useCallback(() =>  {
-        if(!data?.workingHrs){
+    const getOpeningHr = React.useCallback(() => {
+        if (!data?.workingHrs) {
             return null
         }
         let workingHours = data?.workingHrs as WorkingHours;
 
         let day: keyof WorkingHours = new Date().getDay() as any
-       
-        let workingHrToday : {
+
+        let workingHrToday: {
             isOpen24Hours: boolean;
             openingHour: number;
             closingHour: number;
         } = workingHours[day]
-      
+
 
         return {
             isOpen24Hours: workingHrToday.isOpen24Hours,
-            openingHour: `${workingHrToday.openingHour}` + (workingHrToday.openingHour  <= 12 ? 'AM' : 'PM'),
-            closingHour: `${workingHrToday.closingHour}` + (workingHrToday.closingHour  <= 12 ? 'AM' : 'PM'),
+            openingHour: `${workingHrToday.openingHour}` + (workingHrToday.openingHour <= 12 ? 'AM' : 'PM'),
+            closingHour: `${workingHrToday.closingHour}` + (workingHrToday.closingHour <= 12 ? 'AM' : 'PM'),
         }
     }, [data?.workingHrs])
 
@@ -426,18 +426,19 @@ export default function BusinessPageDecoration() {
 
                         )}
 
-                        <div className="absolute top-2 z-100  right-2">
-                            <Link className="bg-white flex items-center px-2 py-1 text-sm rounded-md" href='/'>Xem thử <ArrowUpRight size={16} /> </Link>
-                        </div>
+
                         <div className="absolute w-full h-full" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.01),rgba(0,0,0,0.05), rgba(0,0,0,0.2),  rgba(0,0,0,0.3)) " }}></div>
 
                         <div className="absolute text-white bottom-[4%] left-[4%]">
                             <h1 className="text-white font-display md:text-4xl text-2xl">{data?.title}</h1>
                             <div className="flex items-center gap-1">
-                                <Clock11 size={16}/> { (!isOpening() && isOpening() != null) ? <span className="text-red-400">Đã đóng</span>: <span className="text-green-400"> Đang mở</span> }
+                                <Clock11 size={16} /> {(!isOpening() && isOpening() != null) ? <span className="text-red-400">Đã đóng</span> : <span className="text-green-400"> Đang mở</span>}
                                 <div className="bg-white/20 rounded-full cursor-default p-0.5 px-2">{getOpeningHr()?.openingHour}-{getOpeningHr()?.closingHour}</div>
                             </div>
                         </div>
+                    </div>
+                    <div className="absolute top-2 z-1000  right-2">
+                        <Link className="bg-white flex items-center px-2 py-1 text-sm rounded-md" href={`/t/${slug}`}>Xem thử <ArrowUpRight size={16} /> </Link>
                     </div>
 
 
