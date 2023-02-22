@@ -36,7 +36,7 @@ export default function Page() {
                 >
 
                     <motion.p
-                        className="mb-3 text-center text-2xl text-blue-800 md:text-3xl"
+                        className="mb-3 text-center text-2xl text-indigo-900 md:text-3xl"
                         variants={FADE_DOWN_ANIMATION_VARIANTS}
                     >
                         Trang của bạn
@@ -57,10 +57,10 @@ export default function Page() {
                             className="mr-2 rounded-full border border-gray"
                         />
                         <div className="ml-1 flex-1">
-                            <p className="font-medium text-slate-700">{item?.title}</p>
+                            <p className="font-medium text-indigo-900">{item?.title}</p>
                         </div>
                         <Link href={`/u/${session.user?.id}/t/${item?.slug}`}>
-                        <div className="bg-indigo-700 cursor-pointer flex gap-1 items-center text-white shadow-md text-gray-500 rounded-2xl  px-3 py-1"  >
+                        <div className="bg-indigo-900 cursor-pointer flex gap-1 items-center text-white shadow-md text-gray-500 rounded-2xl  px-3 py-1"  >
                             <span>chọn</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

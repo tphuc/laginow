@@ -12,11 +12,11 @@ export function Toast({ type, message, id }: ToastProps) {
     return (
         <>
             {type == "success" && (
-                <div className="rounded-md bg-gray-100 shadow shadow-md p-4 m-3">
+                <div className="rounded-md bg-white shadow shadow-md p-4 m-3">
                     <div className="flex">
                         <div className="flex-shrink-0">
                             <svg
-                                className="h-5 w-5 text-green-400"
+                                className="h-5 w-5 text-sky-400"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
@@ -30,7 +30,7 @@ export function Toast({ type, message, id }: ToastProps) {
                             </svg>
                         </div>
                         <div className="ml-3">
-                            <p className="text-sm font-medium text-green-900">{message}</p>
+                            <p className="text-sm font-medium text-slate-700">{message}</p>
                         </div>
                         <div className="ml-auto pl-3">
                             <div className="-mx-1.5 -my-1.5">
@@ -38,7 +38,7 @@ export function Toast({ type, message, id }: ToastProps) {
                                     onClick={() => {
                                         dispatch({ type: "DELETE_TOAST", id });
                                     }}
-                                    className="inline-flex bg-green-50 rounded-md p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+                                    className="inline-flex bg-slate-50 rounded-md p-1.5 text-sky-500 hover:bg-slate-100 focus:outline-none focus:ring-2"
                                 >
                                     <span className="sr-only">Dismiss</span>
 
@@ -121,8 +121,8 @@ export function ToastContainer() {
 
     return (
 
-        <div className="absolute bottom-10 w-full z-50">
-            <div className="max-w-xl mx-auto">
+        <div className="fixed bottom-5 w-full z-50">
+            <div className="flex flex-col items-end w-full mx-auto">
                 {toasts?.length ? toasts.map((toast: ToastProps) => <Toast id={toast.id} key={toast.id} type={toast.type} message={toast.message} />) : null}
             </div>
         </div>

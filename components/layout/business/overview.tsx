@@ -12,7 +12,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { blue, violet } from "@radix-ui/colors";
+import { blue, indigo, violet } from "@radix-ui/colors";
 
 ChartJS.register(
     CategoryScale,
@@ -106,8 +106,8 @@ export default function BusinessOverview() {
                             {
                                 label: 'Số lượng tiếp cận',
                                 data: [100, 104, 89, 88, 120, 120, 99],
-                                borderColor: violet.violet8,
-                                backgroundColor: violet.violet7,
+                                borderColor: indigo.indigo10,
+                                backgroundColor: indigo.indigo6,
                                 pointStyle: false
                             },
 
@@ -119,8 +119,6 @@ export default function BusinessOverview() {
             <div className="p-4 rounded-lg w-full bg-white shadow-sm flex flex-col">
 
                 <div className="flex  justify-between items-center">
-
-
                     <div className="flex items-center gap-2 font-display text-lg">
                         <div className="p-2 w-10 h-10 flex items-center justify-center bg-sky-100 rounded-lg text-sky-900">
                             <MessageSquare />

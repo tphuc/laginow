@@ -5,7 +5,7 @@
 import { observable } from '@trpc/server/observable';
 import { EventEmitter } from 'events';
 import prisma from '@/lib/prisma';
-import { z } from 'zod';
+import { boolean, number, z } from 'zod';
 import { protectedProcedure, procedure, router } from '@/server/trpc';
 import { Post, User } from '@prisma/client';
 
@@ -45,6 +45,43 @@ export const businessRouter = router({
                     ...data,
                     tags: {
                         connect: tags
+                    },
+                    workingHrs: {
+                        '1': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        },
+                        '2': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        },
+                        '3': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        },
+                        '4': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        },
+                        '5': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 20
+                        },
+                        '6': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        },
+                        '0': {
+                            isOpen24Hours: false,
+                            openingHour: 8,
+                            closingHour: 18
+                        }
                     }
                 },
             });
@@ -72,7 +109,8 @@ export const businessRouter = router({
                             height: z.number(),
                             size: z.number()
                         })
-                    )
+                    ).optional(),
+
                 })
 
             }),
@@ -89,7 +127,7 @@ export const businessRouter = router({
             return post;
         }),
 
-        updateBySlug: protectedProcedure
+    updateBySlug: protectedProcedure
         .input(
             z.object({
                 slug: z.string(),
@@ -99,6 +137,7 @@ export const businessRouter = router({
                     content: z.string().optional(),
                     address: z.string().optional(),
                     phone: z.string().optional(),
+
                     images: z.array(
                         z.object({
                             fileId: z.string(),
@@ -109,7 +148,46 @@ export const businessRouter = router({
                             height: z.number(),
                             size: z.number()
                         })
-                    )
+                    ).optional(),
+                    workingHrs: z.object(
+                        {
+                            '1': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '2': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '3': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '4': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '5': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '6': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            }),
+                            '0': z.object({
+                                isOpen24Hours: z.boolean(),
+                                openingHour: z.number(),
+                                closingHour: z.number()
+                            })
+                        }
+                    ).optional()
                 })
 
             }),

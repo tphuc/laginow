@@ -28,26 +28,24 @@ export default function UserDropdown() {
       <Popover
         content={
 
-          <div data-boundary="viewport" className="w-full z-10 rounded-md bg-white text-blue-900 p-2 sm:w-56">
+          <div data-boundary="viewport" className="w-full z-10 rounded-md bg-white text-indigo-900 p-2 sm:w-56">
             <Link
               href={`/u/${session?.user?.id}/t`}
-              className="relative outline-none  flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
+              className="relative outline-none flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
             >
               <LayoutDashboard className="h-4 w-4" />
-              <p className="text-sm">Trang quản lí</p>
-
-
+              <p className="text-md font-medium">Trang quản lí</p>
             </Link>
 
            
 
-            <button
+            {/* <button
               className="relative outline-none flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
               onClick={() => signOut({ redirect: false })}
             >
               <LogOut className="h-4 w-4" />
-              <p className="text-sm">Logout</p>
-            </button>
+              <p className="text-md font-medium">Đăng xuất</p>
+            </button> */}
           </div>
 
         }

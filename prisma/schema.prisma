@@ -127,6 +127,8 @@ model Bussiness {
   sunStartHr String?
   sunEndHr   String?
 
+  workingHrs Json?
+
   published Boolean @default(false)
 
   // 
