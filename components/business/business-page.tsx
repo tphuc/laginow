@@ -11,7 +11,7 @@ import { trpc } from "@/lib/trpc";
 import { useToast } from "@/components/shared/toast";
 import ImageUploader, { CloudImage, useImageUploader } from "@/components/shared/upload-image";
 import Image from "next/image";
-import { useModalEditBusinessPhotos } from "../edit-business-photos";
+import { useModalEditBusinessPhotos } from "../layout/edit-business-photos";
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import React, { useState } from "react";
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
@@ -437,10 +437,10 @@ export default function BusinessPageDecoration() {
                             </div>
                         </div>
                     </div>
+
                     <div className="absolute top-2 z-1000  right-2">
                         <Link className="bg-white flex items-center px-2 py-1 text-sm rounded-md" href={`/t/${slug}`}>Xem thử <ArrowUpRight size={16} /> </Link>
                     </div>
-
 
 
                     <div className="flex flex-row gap-2 bg-gray-50 items-center w-full bg-white py-3 px-2 ">

@@ -252,7 +252,7 @@ export const businessRouter = router({
             let record = await prisma.bussiness.findUnique({
                 where: {
                     slug
-                }
+                },
             })
             return record
         }),
@@ -286,6 +286,59 @@ export const businessRouter = router({
             })
             return records
         }),
+
+    addReview: protectedProcedure
+        .input(
+            z.object({
+                slug: z.string(),
+                rating: z.number(),
+                content: z.string().optional(),
+                images: z.array(
+                    z.object({
+                        fileId: z.string(),
+                        name: z.string(),
+                        url: z.string(),
+                        thumbnailUrl: z.string(),
+                        width: z.number(),
+                        height: z.number(),
+                        size: z.number()
+                    })
+                ).optional(),
+            }),
+        )
+        .mutation(async ({ input, ctx }) => {
+            const user = ctx.session?.user as User
+            let records = await prisma.review.create({
+                data: {
+                    userId: user.id,
+                    rating: input?.rating,
+                    content: input?.content,
+                    businessSlug: input.slug,
+                    images: input.images
+                }
+            })
+            return records
+        }),
+
+    fetchAllReviewsBySlug: procedure
+        .input(
+            z.object({
+                slug: z.string()
+            }),
+        )
+        .query(async ({ input, ctx }) => {
+            let records = await prisma.review.findMany({
+                where: {
+                    businessSlug: input.slug,
+                },
+                include: {
+                    user: true
+                }
+            })
+            return records
+        }),
+
+    
 
 
 

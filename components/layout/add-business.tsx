@@ -153,7 +153,7 @@ export const AddBussiness = ({
                     })}
                   >
                     <span>Tiếp tục</span>
-                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M5 12l14 0"></path>
                       <path d="M15 16l4 -4"></path>
@@ -180,7 +180,7 @@ export const AddBussiness = ({
                     }}
                     className="bg-white cursor-pointer flex items-center border border-gray px-2 py-1 rounded-2xl" >
                     <span className="text-slate-600">{e.title}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-gray-400 icon icon-tabler icon-tabler-x " width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-gray-400 icon icon-tabler icon-tabler-x " width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M18 6l-12 12"></path>
                       <path d="M6 6l12 12"></path>
@@ -198,7 +198,7 @@ export const AddBussiness = ({
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M5 12l14 0"></path>
                       <path d="M5 12l4 4"></path>
@@ -217,7 +217,7 @@ export const AddBussiness = ({
                     })}
                   >
                     <span>Tiếp tục</span>
-                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M5 12l14 0"></path>
                       <path d="M15 16l4 -4"></path>
@@ -262,7 +262,7 @@ export const AddBussiness = ({
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M5 12l14 0"></path>
                       <path d="M5 12l4 4"></path>
@@ -278,7 +278,7 @@ export const AddBussiness = ({
                     })}
                   >
                     <span>Xác nhận</span>
-                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    {loading ? <LoadingHorizontalDots /> : <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M5 12l14 0"></path>
                       <path d="M15 16l4 -4"></path>

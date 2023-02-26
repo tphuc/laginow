@@ -12,6 +12,7 @@ import { ToastProvider } from "@/components/shared/toast/toast-context";
 import { ToastContainer } from "@/components/shared/toast";
 import { NextComponentType, NextPage } from "next";
 import { ReactNode } from "react";
+import { PhotoViewModal, SinglePhotViewProvider } from "@/components/single-photo-view";
 
 const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
@@ -41,11 +42,13 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: Props) => {
     <SessionProvider session={session}>
       <ToastProvider>
         <RWBProvider>
-
+          <SinglePhotViewProvider>
           <main className={cx(sfPro.variable, inter.variable)}>
             <ToastContainer />
+            <PhotoViewModal/>
             {getLayout(<Component {...pageProps} />)}
           </main>
+          </SinglePhotViewProvider>
         </RWBProvider>
       </ToastProvider>
       <Analytics />

@@ -2,24 +2,27 @@ import Image from "next/image";
 import StarFilled from "../shared/icons/star-filled";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useModalViewPhotos } from "./view-photos";
+import { useModalPhoto } from "../single-photo-view";
+import { Review } from "@prisma/client";
+import { timeAgo } from "@/lib/utils";
 
-export default function CommmentItem() {
+export default function CommmentItem({data}: {data: any}) {
 
-    const { setShow, show, ViewPhotos } = useModalViewPhotos([
-        {
-            url: 'https://images.unsplash.com/photo-1661956602153-23384936a1d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80'
-        }
-    ])
+    const { setShow: setShowModalPhoto, setPhotoUrl } = useModalPhoto()
+    let images = data?.images as any[]
+    const { setShow, show, setImages, ViewPhotos, } = useModalViewPhotos(images)
+
+    console.log(data)
 
     return <>
         {show && <ViewPhotos />}
         <div className="bg-gray-50 border-t border-gray-300 pt-2 w-full">
             <div className="flex items-center justify-between">
                 <span className="flex gap-2 items-center">
-                    <Image className="bg-gray-200 rounded-full" alt='' width={50} height={50} src={`https://avatars.dicebear.com/api/micah/felixtran2000@gmail.com.svg`} />
+                    <Image className="bg-gray-200 rounded-full" alt='' width={50} height={50} src={data?.user?.image ?? `https://avatars.dicebear.com/api/micah/${data?.user?.email}.svg`} />
                     <div className="w-full">
-                        <p className="text-lg font-display">Bao Phuc Tran</p>
-                        <p className="text-gray-500 text-sm">Feb 8, 2022</p>
+                        <p className="text-lg font-display">{data?.user?.name}</p>
+                        <p className="text-gray-500 text-sm">{timeAgo(data?.createdAt)}</p>
                     </div>
                 </span>
 
@@ -38,14 +41,23 @@ export default function CommmentItem() {
             </span>
 
             <span className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
-            <div style={{ height: 100 }} className="flex bg-gray-100 flex-row gap-1 items-center">
-                <div className="relative h-[100px] w-[100px]">
-                    <Image alt='' className="rounded-sm" fill src='https://images.unsplash.com/photo-1661956602153-23384936a1d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80'></Image>
-                </div>
-                <div className="relative h-[100px] w-[100px]">
-                    <Image alt='' className="rounded-sm" fill src='https://images.unsplash.com/photo-1661956602153-23384936a1d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80'></Image>
-                </div>
-                <div onClick={() => setShow(true)}>View photos</div>
+            <div  className="flex flex-row gap-1 items-center">
+                {images?.map((item: {url: string, fileId: string }) => <div key={item?.fileId} onClick={() => {
+                    setPhotoUrl(item.url)
+                    setShowModalPhoto(true)
+                }} className="relative h-[100px] w-[100px]">
+                    <Image alt='' className="rounded-sm object-cover" style={{objectFit:'cover'}} fill src={item.url}></Image>
+                </div> )}
+                
+                
+                {images[0]?.url && <div onClick={() => {
+                    setImages(images)
+                    setShow(true)
+                }} className="relative rounded-sm select-none cursor-default bg-gray-200 h-[100px] w-[100px]">
+                    <span className="absolute rounded-sm text-white w-full h-full z-10 bg-black/40 backdrop-blur flex items-center justify-center text-sm text-color-800" >xem ảnh</span>
+                    <Image alt=''  className="rounded-sm object-cover" fill src={images[0]?.url} style={{objectFit:'cover'}} />
+                </div>} 
+               
             </div>
 
         </div>

@@ -14,8 +14,8 @@ import PageLayout from "@/components/layout/page-layout";
 import * as Tabs from '@radix-ui/react-tabs';
 import clsx from "clsx";
 import UserDropdown from "@/components/layout/user-dropdown";
-import BusinessOverview from "@/components/layout/business/overview";
-import BusinessPageDecoration from "@/components/layout/business/business-page";
+import BusinessOverview from "@/components/business/overview";
+import BusinessPageDecoration from "@/components/business/business-page";
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
 

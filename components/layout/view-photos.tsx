@@ -11,6 +11,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { useModalPhoto } from "../single-photo-view";
 
 const PhotosGrid = ({
   show,
@@ -29,6 +30,8 @@ const PhotosGrid = ({
     }
   }, [images]);
 
+  const { setPhotoUrl, setShow: setShowSingle } = useModalPhoto()
+
 
   return (
 
@@ -36,7 +39,10 @@ const PhotosGrid = ({
       <div className="relative p-[4%] h-full w-full">
         <div onClick={() => setShow(false)} className="absolute hidden md:flex top-2 right-2 flex cursor-pointer items-center text-lg text-slate-800"><X /> Đóng </div>
         <div className={clsx("grid grid-cols-2 gap-1.5 lg:grid-cols-4 w-full")}>
-          {list?.map((item, id) => <div key={id} className={`relative aspect-square rounded-sm bg-white shadow-sm`}>
+          {list?.map((item, id) => <div onClick={() => {
+            setPhotoUrl(item.url)
+            setShowSingle(true)
+          }} key={id} className={`relative aspect-square rounded-sm bg-white shadow-sm`}>
             <Image src={item?.url} alt="" fill className={`relative aspect-square object-cover rounded-sm`} loading="lazy" />
           </div>)}
         </div>
@@ -47,8 +53,9 @@ const PhotosGrid = ({
   );
 };
 
-export function useModalViewPhotos(images: any[]) {
+export function useModalViewPhotos(initialImages: any[]) {
   const [show, setShow] = useState(false);
+  const [images, setImages] = useState(initialImages)
 
   const Component = useCallback(() => {
     return (
@@ -61,7 +68,7 @@ export function useModalViewPhotos(images: any[]) {
   }, [show, setShow]);
 
   return useMemo(
-    () => ({ setShow, show, ViewPhotos: Component }),
+    () => ({ setShow, show, setImages, ViewPhotos: Component }),
     [setShow, Component],
   );
 }

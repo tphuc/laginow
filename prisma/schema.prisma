@@ -133,6 +133,7 @@ model Bussiness {
 
   // 
   UserViewBusiness UserViewBusiness[]
+  Review           Review[]
 
   @@index([slug])
   @@index([ownerId])
@@ -140,12 +141,21 @@ model Bussiness {
 }
 
 model Review {
-  id      String  @id @default(cuid())
-  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String?
-  content String  @db.Text
+  id           String     @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  business     Bussiness? @relation(fields: [businessSlug], references: [slug])
+  businessSlug String?
+  rating       Int
+  content      String?    @db.Text
+  images       Json?
+
 
   @@index([userId])
+  @@index([businessSlug])
+  @@index([userId, businessSlug])
 }
 
 model Tag {
@@ -169,13 +179,14 @@ model MasterTag {
 }
 
 model UserViewBusiness {
-  id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id])
-  business    Bussiness @relation(fields: [bussinessId], references: [id])
-  createdAt   DateTime  @unique @default(now())
+  id          String                  @id @default(cuid())
+  user        User                    @relation(fields: [userId], references: [id])
+  business    Bussiness               @relation(fields: [bussinessId], references: [id])
+  createdAt   DateTime                @unique @default(now())
   context     UserViewBusinessContext
   userId      String
   bussinessId String
+
 
   @@index([userId])
   @@index([bussinessId])

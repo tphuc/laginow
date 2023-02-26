@@ -16,9 +16,11 @@ import { createContext } from '@/server/context';
 import { useModalViewPhotos } from '@/components/layout/view-photos';
 import clsx from 'clsx';
 import { WorkingHours } from '@/components/working-hrs';
-import { Bussiness } from '@prisma/client';
+import { Bussiness, Review } from '@prisma/client';
 import StarFilled from '@/components/shared/icons/star-filled';
 import CommmentItem from '@/components/layout/comment-item';
+import { useModalPhoto } from '@/components/single-photo-view';
+import { useAddCommentItemModal } from '@/components/business/add-comment-item';
 
 
 const weekDays = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
@@ -26,13 +28,17 @@ const weekDays = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'T
 const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     let trpcState = props.trpcState as any
     const data: Bussiness = trpcState.json?.queries[0]?.state?.data as any
-
+   
     let slug = props.slug as string
+    const { data: reviews, isLoading } = trpc.business.fetchAllReviewsBySlug.useQuery({slug});
     // const { data, isLoading } = trpc.business.getBySlug.useQuery({ slug })
     const { data: session } = useSession()
     let images = data?.images as { url: string, fileId: string }[]
 
     const { setShow, ViewPhotos } = useModalViewPhotos(images)
+    const { setShow: setShowModalPhoto, setPhotoUrl } = useModalPhoto()
+
+    const { setShow: setAddCommentShow, AddCommentItem } = useAddCommentItemModal()
 
     const isOpening = React.useCallback(() => {
         if (!data?.workingHrs) {
@@ -110,6 +116,7 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <>
             <ViewPhotos />
+            <AddCommentItem/>
             <div className="flex flex-col items-center">
                 <div className="w-full relative min-w-[300px] border border-gray-200 overflow-hidden ">
                     <div className="relative bg-white bg-gray-100  flex  w-full  h-36 sm:h-48 md:h-72 lg:h-80 ">
@@ -152,7 +159,7 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 
                     <div className="flex flex-row gap-2  items-center w-full py-3 px-[4%] ">
-                        <div className="bg-indigo-900 hover:bg-indigo-800 transition-all text-white cursor-pointer inline-flex gap-2 items-center shadow-md px-3 py-1.5  rounded-md" > Đánh giá <Star size={16} /> </div>
+                        <div onClick={() => setAddCommentShow(true)} className="bg-indigo-900 hover:bg-indigo-800 transition-all text-white cursor-pointer inline-flex gap-2 items-center shadow-md px-3 py-1.5  rounded-md" > Đánh giá <Star size={16} /> </div>
                         <div className="cursor-pointer hover:text-indigo-800 inline-flex border border-gray-300 gap-2 bg-white items-center shadow-sm px-3 py-1.5  rounded-md" > Chia sẻ <Link2 /> </div>
 
                     </div>
@@ -222,8 +229,10 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         </div>
                         <br/>
 
-                        <h1 className='text-xl font-bold mb-1'> Binh luan </h1>
-                        <CommmentItem/>
+                            <h1 className='text-xl font-bold mb-1'> Binh luan </h1>
+                            <div className='flex flex-col gap-2'>
+                            {reviews?.map((item: any) => <CommmentItem data={item} key={item.id} />)} 
+                            </div>
 
                         <br/>
 
@@ -240,6 +249,7 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             allowFullScreen
                         />}
                     </div>
+
 
                     <div>
 

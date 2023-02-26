@@ -28,7 +28,7 @@ export default function MultiSelect({
         <div className="inline-flex flex-wrap gap-1 p-2 border rounded-lg shadow-sm bg-stone-100 w-full">
           <PopoverPrimitive.Trigger className="bg-indigo-700 flex gap-1 items-center text-white shadow-md text-gray-500 rounded-2xl  px-3 py-1"  >
             <span>{placeholder}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-chevron-right" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-chevron-right" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M11 9l3 3l-3 3"></path>
               <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
@@ -65,7 +65,7 @@ export default function MultiSelect({
 
 
               }} className="flex text-slate-700 items-center gap-2 py-1 px-2 cursor-pointer rounded-md hover:bg-stone-100">
-                {/* {isChecked && <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                {/* {isChecked && <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-check" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M5 12l5 5l10 -10"></path>
                 </svg>} */}
