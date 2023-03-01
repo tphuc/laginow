@@ -49,11 +49,11 @@ export default function CommmentItem({data}: {data: any}) {
     const isUserLiked = useCallback(() => {
         let res = data.userLikes?.findIndex((item: string) => item == user?.id) >= 0
         return res
-    }, [user.id])
+    }, [user?.id])
 
     const isUserDisliked = useCallback(() => {
         return data.userDislikes?.findIndex((item: string) => item == user?.id) >= 0
-    }, [user.id])
+    }, [user?.id])
 
 
     return <>
