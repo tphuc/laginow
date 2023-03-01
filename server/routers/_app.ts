@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { procedure, router } from '../trpc';
-import { postRouter } from './post';
+import { reviewRouter } from './review';
 import { businessRouter } from './business';
 import { tagRouter } from './tags';
 
@@ -17,7 +17,7 @@ export const appRouter = router({
     };
   }),
 
-  post: postRouter,
+  review: reviewRouter,
   business: businessRouter,
   tags: tagRouter
 

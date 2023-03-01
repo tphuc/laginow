@@ -314,7 +314,9 @@ export const businessRouter = router({
                     rating: input?.rating,
                     content: input?.content,
                     businessSlug: input.slug,
-                    images: input.images
+                    images: input.images,
+                    userLikes: [],
+                    userDislikes: []
                 }
             })
             return records
@@ -338,7 +340,65 @@ export const businessRouter = router({
             return records
         }),
 
-    
+    fetchInfiniteReviews:
+        procedure
+            .input(z.object({
+                slug: z.string(),
+                sort: z.any().optional(),
+                limit: z.number().min(1).max(100).nullish(),
+                cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+            }))
+            .query(async ({ input }) => {
+                const limit = input.limit ?? 50;
+                const { cursor } = input;
+                const items = await prisma.review.findMany({
+                    take: limit + 1, // get an extra item at the end which we'll use as next cursor
+                    where: {
+                        businessSlug: input.slug
+                    },
+                    cursor: cursor ? { id: cursor } : undefined,
+                    orderBy: {
+                        createdAt: input.sort?.length ? input.sort as 'asc' | 'desc' : 'desc'
+                    },
+                    include: {
+                        user: true
+                    }
+                })
+                let nextCursor: typeof cursor | undefined = undefined;
+                if (items.length > limit) {
+                    const nextItem = items.pop()
+                    nextCursor = nextItem!.id;
+                }
+                return {
+                    items,
+                    nextCursor,
+                };
+            }),
+    getAvgRating:
+        procedure.input(
+            z.object({
+                slug: z.string()
+            })  
+        ).query(async ({ input }) => {
+
+            const ratingCounts = await prisma.review.groupBy({
+                by: ['rating'],
+                _count: true,
+              });
+              
+            let res = await prisma.review.aggregate({
+                where: { businessSlug: input.slug },
+                _avg: { rating: true },
+                _count: true,
+            });
+            return {
+                avg: res._avg,
+                count: res._count,
+                group: ratingCounts
+            }
+        })
+
+
 
 
 

@@ -5,14 +5,56 @@ import { useModalViewPhotos } from "./view-photos";
 import { useModalPhoto } from "../single-photo-view";
 import { Review } from "@prisma/client";
 import { timeAgo } from "@/lib/utils";
+import StarRated from "../shared/star-rated";
+import { trpc } from "@/lib/trpc";
+import { useCallback, useState } from "react";
+import { useSession } from "next-auth/react";
+import clsx from "clsx";
 
 export default function CommmentItem({data}: {data: any}) {
+
+    const user = useSession().data?.user as any
 
     const { setShow: setShowModalPhoto, setPhotoUrl } = useModalPhoto()
     let images = data?.images as any[]
     const { setShow, show, setImages, ViewPhotos, } = useModalViewPhotos(images)
+    const userLike = trpc.review.userLike.useMutation({})
+    const userDislike = trpc.review.userDislike.useMutation({})
+    const [loading, setLoading] = useState(false);
 
-    console.log(data)
+    const [totalLike, setTotalLike] = useState(data?.userLikes ?? [])
+    const [totalDislike, setTotalDislike] = useState(data?.userDislikes ?? [])
+
+
+    const onUserLike = async () => {
+        setLoading(true)
+        let userId = user?.id
+        if(totalLike?.findIndex((item: string) => item == userId) === -1){
+            await userLike.mutateAsync({ id: data?.id }).catch(e => setLoading(false))
+            setTotalLike([...totalLike, userId])
+        }
+        setLoading(false)
+    }
+
+    const onUserDislike = async () => {
+        let userId = user?.id
+        setLoading(true)
+        if(totalDislike?.findIndex((item: string) => item == userId) === -1){
+            await userDislike.mutateAsync({ id: data?.id }).catch(e => setLoading(false))
+            setTotalDislike([...totalDislike, userId])
+        }
+        setLoading(false)
+    }
+
+    const isUserLiked = useCallback(() => {
+        let res = data.userLikes?.findIndex((item: string) => item == user?.id) >= 0
+        return res
+    }, [user.id])
+
+    const isUserDisliked = useCallback(() => {
+        return data.userDislikes?.findIndex((item: string) => item == user?.id) >= 0
+    }, [user.id])
+
 
     return <>
         {show && <ViewPhotos />}
@@ -25,22 +67,30 @@ export default function CommmentItem({data}: {data: any}) {
                         <p className="text-gray-500 text-sm">{timeAgo(data?.createdAt)}</p>
                     </div>
                 </span>
-
-
             </div>
             <span className='flex flex-row items-center gap-2 text-indigo-900 my-2'>
-                <div className="flex flex-row">
-                    {[1, 2, 3, 4, 5]?.map(i => <StarFilled key={i} width={18} height={18} />)}
+                <StarRated rated={data?.rating}/>
+                <div onClick={onUserLike} className={clsx("flex border border-gray-300 text-gray-500 cursor-default flex-row p-1 gap-1  hover:bg-gray-100 hover:text-indigo-800 rounded-md items-center", {
+                    "text-indigo-800 border-indigo-400": isUserLiked() === true,
+                    'disabled:opacity-50  pointer-events-none': loading === true
+                })}>
+                    <ThumbsUp width={18} height={18} /> <span>{totalLike?.length ?? 0}</span>
                 </div>
-                <div className="flex cursor:default flex-row p-1 gap-1 text-slate-800  hover:bg-indigo-50 rounded-md items-center">
-                    <ThumbsUp width={18} height={18} /> <span>1</span>
-                </div>
-                <div className="flex cursor:default flex-row p-1 gap-1 text-slate-800 hover:bg-indigo-50 rounded-md items-center">
-                    <ThumbsDown width={18} height={18} /> <span>1</span>
+                <div onClick={onUserDislike} className={clsx("flex border border-gray-300 text-gray-500 cursor-default flex-row p-1 gap-1  hover:bg-gray-100 hover:text-indigo-800 rounded-md items-center", {
+                    "text-indigo-800 border-indigo-400": isUserDisliked() === true,
+                    'disabled:opacity-50  pointer-events-none': loading === true
+                })}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M9 10l.01 0"></path>
+   <path d="M15 10l.01 0"></path>
+   <path d="M9.5 15.25a3.5 3.5 0 0 1 5 0"></path>
+</svg> <span>{totalDislike?.lengt ?? 0}</span>
                 </div>
             </span>
 
-            <span className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+            <span className="text-gray-700">{data?.content}</span>
             <div  className="flex flex-row gap-1 items-center">
                 {images?.map((item: {url: string, fileId: string }) => <div key={item?.fileId} onClick={() => {
                     setPhotoUrl(item.url)

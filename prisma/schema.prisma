@@ -152,6 +152,9 @@ model Review {
   content      String?    @db.Text
   images       Json?
 
+  userLikes    Json? @default("[]")
+  userDislikes Json? @default("[]")
+
 
   @@index([userId])
   @@index([businessSlug])
@@ -192,9 +195,12 @@ model UserViewBusiness {
   @@index([bussinessId])
 }
 
+
+
 enum UserViewBusinessContext {
   page
   photo
   contact
   ad
 }
+

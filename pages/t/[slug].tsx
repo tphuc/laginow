@@ -1,7 +1,7 @@
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { useSession } from "next-auth/react";
 import { useSignInModal } from "@/components/layout/sign-in-modal";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Layout2 from "@/components/layout/layout2";
 import { useRouter } from "next/router";
 import { trpc } from "@/lib/trpc";
@@ -21,6 +21,11 @@ import StarFilled from '@/components/shared/icons/star-filled';
 import CommmentItem from '@/components/layout/comment-item';
 import { useModalPhoto } from '@/components/single-photo-view';
 import { useAddCommentItemModal } from '@/components/business/add-comment-item';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import PaginationBar from '@/components/shared/pagination-bar';
+import LoadingHorizontalDots from '@/components/shared/loading-dots';
+import RatingStars from '@/components/shared/rating-star';
+import StarRated from '@/components/shared/star-rated';
 
 
 const weekDays = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
@@ -28,9 +33,33 @@ const weekDays = ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'T
 const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     let trpcState = props.trpcState as any
     const data: Bussiness = trpcState.json?.queries[0]?.state?.data as any
-   
+    const ratingData = trpcState.json?.queries[1]?.state?.data as any
+    console.log(ratingData)
+    const [page, setPage] = useState(1);
+
+    const router = useRouter();
+    const reviewSortBy = router.query?.csort ?? ''
+
     let slug = props.slug as string
-    const { data: reviews, isLoading } = trpc.business.fetchAllReviewsBySlug.useQuery({slug});
+    const { data: reviews, isLoading: isReviewsLoading, hasPreviousPage, hasNextPage, fetchNextPage } = trpc.business.fetchInfiniteReviews.useInfiniteQuery({
+        slug,
+        sort: reviewSortBy,
+        limit: 10
+    }, {
+
+        getNextPageParam: (lastPage) => {
+            return lastPage.nextCursor
+        },
+
+        // initialCursor: 1, // <-- optional you can pass an initialCursor
+
+    });
+
+
+
+
+
+
     // const { data, isLoading } = trpc.business.getBySlug.useQuery({ slug })
     const { data: session } = useSession()
     let images = data?.images as { url: string, fileId: string }[]
@@ -102,7 +131,6 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         return Object.keys(workingHrs)?.map((_day: string) => {
             let day: keyof WorkingHours = _day as any
-
             let dayWorkHrs = workingHrs[day]
 
             return <div className='justify-between flex items-center' key={day}>
@@ -116,7 +144,7 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <>
             <ViewPhotos />
-            <AddCommentItem/>
+            <AddCommentItem />
             <div className="flex flex-col items-center">
                 <div className="w-full relative min-w-[300px] border border-gray-200 overflow-hidden ">
                     <div className="relative bg-white bg-gray-100  flex  w-full  h-36 sm:h-48 md:h-72 lg:h-80 ">
@@ -178,67 +206,82 @@ const Page = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <h1 className='text-xl font-bold mb-1'> Đánh giá </h1>
                         <div className='flex flex-row gap-4 flex-wrap'>
                             <div className='flex-1 text-indigo-900'>
-                                <h1 className='text-3xl'>4.7</h1>
-                                <span className='flex flex-row text-indigo-900'> 
-                                {[1,2,3,4,5]?.map(i => <StarFilled key={i} width={24} height={24} />)}
-                                </span>
-                                <span className='text-gray-600'>40 đánh giá</span>
+                                <h1 className='text-3xl'>{Math.round(ratingData?.avg?.rating * 10) / 10 }</h1>
+                                <StarRated rated={Math.floor(ratingData?.avg?.rating ?? 5)}/>
+                                <span className='text-gray-600'>{ratingData?.count} đánh giá</span>
                             </div>
                             <div className="w-full flex flex-col min-w-[280px] md:w-2/3">
-
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center text-indigo-900 gap-1 text-md">5 <StarFilled width={16} height={16} /></span>
-                                    <span className="text-sm text-indigo-800 font-medium">25%</span>
+                                {[5,4,3,2,1]?.map(rating => <React.Fragment key={rating}>
+                                    <div className="flex items-center justify-between">
+                                    <span className="flex items-center text-indigo-900 gap-1 text-md">{rating}<StarFilled width={16} height={16} /></span>
+                                    <span className="text-sm text-indigo-800 font-medium">{ratingData?.group?.find((item: any) => item?.rating == rating)?._count ?? 0}</span>
                                 </div>
                                 <div className="w-full bg-indigo-100 h-1 mb-3">
-                                    <div className="bg-indigo-800 h-1 rounded" style={{ width: '75%' }}></div>
+                                    <div className="bg-indigo-800 h-1 rounded" style={{ width: `${(ratingData?.group?.find((item: any) => item?.rating == rating)?._count ?? 0) / ratingData?.count * 100}%` }}></div>
                                 </div>
+                                </React.Fragment>)}
+                                
 
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center text-indigo-800 gap-1 text-md">4 <StarFilled width={16} height={16} /></span>
-                                    <span className="text-sm text-indigo-800 font-medium">25%</span>
-                                </div>
-                                <div className="w-full bg-indigo-100 h-1 mb-3">
-                                    <div className="bg-indigo-700 h-1 rounded" style={{ width: '55%' }}></div>
-                                </div>
+                                
 
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center text-indigo-700 gap-1 text-md">3 <StarFilled width={16} height={16} /></span>
-                                    <span className="text-sm text-indigo-800 font-medium">25%</span>
-                                </div>
-                                <div className="w-full bg-indigo-100 h-1 mb-3">
-                                    <div className="bg-indigo-600 h-1 rounded" style={{ width: '35%' }}></div>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center text-indigo-700 gap-1 text-md">2 <StarFilled width={16} height={16} /></span>
-                                    <span className="text-sm text-indigo-800 font-medium">25%</span>
-                                </div>
-                                <div className="w-full bg-indigo-100 h-1 mb-3">
-                                    <div className="bg-indigo-500 h-1 rounded" style={{ width: '55%' }}></div>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center text-indigo-700 gap-1 text-md">1 <StarFilled width={16} height={16} /></span>
-                                    <span className="text-sm text-indigo-800 font-medium">25%</span>
-                                </div>
-                                <div className="w-full bg-indigo-100 h-1 mb-3">
-                                    <div className="bg-indigo-300 h-1 rounded" style={{ width: '55%' }}></div>
-                                </div>
                             </div>
                         </div>
-                        <br/>
+                        <br />
 
-                            <h1 className='text-xl font-bold mb-1'> Binh luan </h1>
-                            <div className='flex flex-col gap-2'>
-                            {reviews?.map((item: any) => <CommmentItem data={item} key={item.id} />)} 
-                            </div>
+                        <h1 className='text-xl font-bold mb-1'> Bình luận </h1>
+                        <select
+                            className='bg-white border border-stone-300  rounded-full shadow shadow-sm disabled:opacity-50'
+                            defaultValue={''}
+                            onChange={(e) => {
+                                setPage(1);
+                                router.push({
+                                    query: {
+                                        slug: slug,
+                                        csort: e.target.value
+                                    },
+                                }, undefined, { shallow: true })
+                            }}
+                        >
+                            <option value={''}>Mặc định</option>
+                            <option value={'desc'}>Mới nhất</option>
+                            <option value={'asc'}>Cũ nhất</option>
 
-                        <br/>
+                        </select>
+
+                        <div className='flex flex-col mt-2 gap-2'>
+                            {reviews?.pages[page - 1]?.items?.map((item: any) => (
+                                <CommmentItem data={item} key={item.id} />
+                            ))}
+                            {isReviewsLoading && <LoadingHorizontalDots color='black' />}
+
+                            <div className='w-full bg-gray-300 h-[1px]'></div>
+                            <PaginationBar
+                                onClickNext={async () => {
+                                    if (page <= (reviews?.pages?.length ? reviews?.pages?.length - 1 : 0)) {
+                                        setPage(page + 1)
+                                    }
+                                    else if (hasNextPage) {
+                                        await fetchNextPage()
+                                        setPage(page + 1)
+                                    }
+                                }}
+
+                                onClickPrevious={() => {
+                                    if (page - 1 >= 1) {
+                                        setPage(page - 1)
+                                    }
+                                }}
+                            >
+                                <span className='text-indigo-800'>Trang {page}</span>
+                            </PaginationBar>
+                        </div>
+
+                        <br />
 
                     </div>
 
                     <div style={{ flex: 1 }} className='px-[4%] min-w-[300px]'>
+
                         {data?.address && <iframe
                             title="map"
                             width="100%"
@@ -300,6 +343,7 @@ export async function getStaticProps(
     const slug = context.params?.slug as string;
     // prefetch `post.byId`
     await ssg.business.getBySlug.prefetch({ slug });
+    await ssg.business.getAvgRating.prefetch({ slug });
 
     return {
         props: {
