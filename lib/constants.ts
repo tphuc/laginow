@@ -20,6 +20,9 @@ export const DEPLOY_URL =
 
 
 export const INPUT_STYLES = {
-  className: "inline-block w-full py-2 rounded-md placeholder:italic placeholder:text-slate-400  bg-gray-100 border-gray-200  focus:border-gray-300 hover:focus:border-gray-700 hover:border-gray-300 hover:focus:border-gray-300 focus:ring-0 text-sm mt-1 block w-full shadow-sm"
+  className: "py-2 px-3 rounded-md bg-gray-50 border-none border-gray-300 focus:ring-2 focus:ring-gray-800",
 }
 
+export const TEXTAREA_STYLES = {
+  className: "flex w-full  rounded-md border border-slate-300 py-2 px-3 text-sm placeholder:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 "
+}

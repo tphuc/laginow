@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { ChangeEventHandler, useCallback, useId, useMemo, useState } from "react"
 
@@ -8,7 +9,7 @@ export default function AvatarUpload({ url, label = '', className, onselect }: A
 
 
     return (
-        <div className={clsx(`relative bg-gradient-to-r from-cyan-500 to-blue-500  block aspect-square rounded-full`, className)}>
+        <div className={cn(`relative bg-gradient-to-r from-cyan-500 to-blue-500  block aspect-square rounded-full`, className)}>
                 <img className="relative rounded-full" src={url} />
       
                 <div className="absolute w-7 h-7 sm:w-8 sm:h-8  bg-gray-100/90 text-gray-700 top-[-8%] left-[-8%] rounded-full">

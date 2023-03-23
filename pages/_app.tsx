@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { Provider as RWBProvider } from "react-wrap-balancer";
 import cx from "classnames";
 import localFont from "@next/font/local";
-import { Inter } from "@next/font/google";
+import { Be_Vietnam_Pro, Inter, Montserrat, Poppins } from "@next/font/google";
 import { trpc } from '@/lib/trpc';
 import { ToastProvider } from "@/components/shared/toast/toast-context";
 import { ToastContainer } from "@/components/shared/toast";
@@ -18,6 +18,12 @@ const sfPro = localFont({
   src: "../styles/SF-Pro-Display-Medium.otf",
   variable: "--font-sf",
 });
+
+const poppins = Be_Vietnam_Pro({
+  variable: "--font-poppins",
+  weight: ["200", "300", "400", "500", "600"],
+  subsets: ["latin"],
+})
 
 const inter = Inter({
   variable: "--font-inter",
@@ -43,11 +49,11 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: Props) => {
       <ToastProvider>
         <RWBProvider>
           <SinglePhotViewProvider>
-          <main className={cx(sfPro.variable, inter.variable)}>
-            <ToastContainer />
-            <PhotoViewModal/>
-            {getLayout(<Component {...pageProps} />)}
-          </main>
+            <main className={cx(  poppins.variable, sfPro.variable, inter.variable,)}>
+              <ToastContainer />
+              <PhotoViewModal />
+              {getLayout(<Component {...pageProps} />)}
+            </main>
           </SinglePhotViewProvider>
         </RWBProvider>
       </ToastProvider>

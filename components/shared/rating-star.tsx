@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react"
 
@@ -16,7 +17,7 @@ export default function RatingStars(props: RatingStarProps) {
       setValue(item);
       props?.onChange?.(item)
     }}>
-      <svg className={clsx("w-8 h-auto fill-current", {
+      <svg className={cn("w-8 h-auto fill-current", {
         "text-indigo-300": value && value < item,
         "text-indigo-800": value ? value >= item : false
       })}

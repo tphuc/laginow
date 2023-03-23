@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { ChangeEventHandler, useCallback, useId, useMemo, useState } from "react"
 
@@ -8,7 +9,7 @@ export default function BannerUpload({ url, label = '', className, onselect }: B
 
 
     return (
-        <div className={clsx(`relative bg-slate-700 block aspect-square rounded-md`, className)}>
+        <div className={cn(`relative bg-slate-700 block aspect-square rounded-md`, className)}>
                 {url && <img className="relative rounded-md w-full  h-full" style={{objectFit:"cover"}}  src={url} />}
       
                 <label htmlFor={`upload_${uploadId}`} className="absolute z-10 text-sm shadow shadow-sm pointer-cursor hover:text-gray-800 text-gray-500 flex right-2 top-2  rounded-md items-center gap-2 bg-white p-1.5 px-3">

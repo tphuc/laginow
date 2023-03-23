@@ -22,6 +22,7 @@ import Popover, { useMultiSelect } from "../shared/multiple-select";
 import MultiSelect from "../shared/multiple-select";
 import ImageUploader from "../shared/upload-image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 
 export const AddBussiness = ({
@@ -117,7 +118,7 @@ export const AddBussiness = ({
               transition={{ duration: 0.6, type: "spring" }}
             >
               <h1
-                className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center font-display text-2xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-4xl md:leading-[5rem]"
+                className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center  text-2xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-4xl md:leading-[5rem]"
               >
                 Bắt đầu với Lagi Now Business
               </h1>
@@ -148,7 +149,7 @@ export const AddBussiness = ({
 
                       setLoading(false)
                     }}
-                    className={clsx(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
+                    className={cn(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
@@ -164,7 +165,7 @@ export const AddBussiness = ({
                 </motion.div>
               }
 
-              <motion.div className={clsx("w-full text-left", {
+              <motion.div className={cn("w-full text-left", {
                 "hidden": step !== 2
               })}>
                 <p className="block mb-2 text-lg font-medium text-slate-600 dark:text-gray-400" > Cho chúng tôi biết thêm về trang của bạn </p>
@@ -194,7 +195,7 @@ export const AddBussiness = ({
                     onClick={() => {
                       setStep(1)
                     }}
-                    className={clsx(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-white text-black p-1.5 px-4 text-display text-white transition-all `, {
+                    className={cn(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-white text-black p-1.5 px-4 text-display text-white transition-all `, {
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
@@ -212,7 +213,7 @@ export const AddBussiness = ({
                       e.preventDefault()
                       setStep(3)
                     }}
-                    className={clsx(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
+                    className={cn(`rounded-full disabled float-right flex items-center gap-2 justify-center  border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
@@ -228,7 +229,7 @@ export const AddBussiness = ({
               </motion.div>
 
 
-              <motion.div className={clsx("w-full text-left", {
+              <motion.div className={cn("w-full text-left", {
                 "hidden": step !== 3
               })}>
                 <div className='py-2 flex flex-col w-full gap-2'>
@@ -258,7 +259,7 @@ export const AddBussiness = ({
                     onClick={async () => {
                       setStep(2)
                     }}
-                    className={clsx(`rounded-full disabled flex items-center gap-2 justify-center border border-black bg-white text-gray-900 p-1.5 px-4 text-display text-white transition-all `, {
+                    className={cn(`rounded-full disabled flex items-center gap-2 justify-center border border-black bg-white text-gray-900 p-1.5 px-4 text-display text-white transition-all `, {
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
@@ -273,7 +274,7 @@ export const AddBussiness = ({
                   <button
                     disabled={loading}
                     type='submit'
-                    className={clsx(`rounded-full disabled flex items-center gap-2 justify-center border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
+                    className={cn(`rounded-full disabled flex items-center gap-2 justify-center border border-black bg-black p-1.5 px-4 text-display text-white transition-all hover:bg-white hover:text-black`, {
                       'disabled:opacity-50  pointer-events-none': loading === true
                     })}
                   >
@@ -298,7 +299,7 @@ export const AddBussiness = ({
 
                     </div>
                     <h2
-                      className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center font-display text-md font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-6xl md:leading-[5rem]"
+                      className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center  text-md font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-6xl md:leading-[5rem]"
                     >
                       <Balancer>Tạo trang thành công</Balancer>
                     </h2>
@@ -307,7 +308,7 @@ export const AddBussiness = ({
                     <br />
                     <Link
                     href={`/u/${session?.user?.id}/t`}
-                      className={clsx(`rounded-full disabled flex items-center gap-2 border border-gray justify-center bg-white p-2 px-4 text-display text-black transition-all hover:shadow-md hover:text-black shadow-sm`, {
+                      className={cn(`rounded-full disabled flex items-center gap-2 border border-gray justify-center bg-white p-2 px-4 text-display text-black transition-all hover:shadow-md hover:text-black shadow-sm`, {
                         'disabled:opacity-50  pointer-events-none': loading === true
                       })}
                     >

@@ -6,9 +6,9 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
-import { useSignInModal } from "./sign-in-modal";
-import UserDropdown from "./user-dropdown";
-import MenuDropdown from "./menu-dropdown";
+import { useSignInModal } from "../shared/sign-in-modal";
+import UserDropdown from "@/components/shared/user-dropdown";
+import MenuDropdown from "../shared/menu-dropdown";
 import NavbarLinks from "./navbar-links";
 
 export default function Layout({
@@ -38,7 +38,7 @@ export default function Layout({
           } z-30 transition-all`}
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
-          <Link href="/" className="flex items-center font-display text-2xl">
+          <Link href="/" className="flex items-center  text-2xl">
             {/* <Image
               src="/laginow.svg"
               alt="Precedent logo"

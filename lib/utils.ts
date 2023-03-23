@@ -1,10 +1,15 @@
 import ms from "ms";
+import { ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export const timeAgo = (timestamp: Date, timeOnly?: boolean): string => {
   if (!timestamp) return "never";
-  return `${ms(Date.now() - new Date(timestamp).getTime())}${
-    timeOnly ? "" : " ago"
-  }`;
+  return `${ms(Date.now() - new Date(timestamp).getTime())}${timeOnly ? "" : " ago"
+    }`;
 };
 
 export async function fetcher<JSON = any>(
@@ -44,7 +49,7 @@ export function nFormatter(num: number, digits?: number) {
   var item = lookup
     .slice()
     .reverse()
-    .find(function (item) {
+    .find(function(item) {
       return num >= item.value;
     });
   return item
@@ -61,3 +66,21 @@ export const truncate = (str: string, length: number) => {
   if (!str || str.length <= length) return str;
   return `${str.slice(0, length)}...`;
 };
+
+export function getPosition(string: string, subString: string, index: number) {
+  return string.split(subString, index).join(subString).length;
+}
+
+var formatter = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
+
+export function formatVND(val: any) {
+  return formatter.format(val)
+}

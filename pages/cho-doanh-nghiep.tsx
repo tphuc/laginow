@@ -11,7 +11,7 @@ import Image from "next/image";
 import { trpc } from '@/lib/trpc';
 import ImageUploader from "@/components/shared/upload-image";
 import { useSession } from "next-auth/react";
-import { useSignInModal } from "@/components/layout/sign-in-modal";
+import { useSignInModal } from "@/components/shared/sign-in-modal";
 import { AddBussiness } from "@/components/layout/add-business";
 import Link from "next/link";
 
@@ -44,7 +44,7 @@ export default function Page() {
 
 
           <motion.h1
-            className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
+            className="bg-gradient-to-br from-indigo-900 to-slate-500 bg-clip-text text-center  text-4xl font-bold tracking-[-0.02em] text-transparent drop-shadow-sm md:text-7xl md:leading-[5rem]"
             variants={FADE_DOWN_ANIMATION_VARIANTS}
           >
             <Balancer> Kết nối thương hiệu của bạn  đến mọi người</Balancer>

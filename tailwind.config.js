@@ -11,16 +11,30 @@ module.exports = {
   },
   theme: {
     extend: {
-      data:{
+      colors: {
+        maskgradient: "linear-gradient(rgba(100, 100, 100, 0), rgba(100, 100, 100, 0.5))",
+      },
+      borderWidth: {
+        "1.5": '1.5px',
+      },
+      boxShadow: {
+        small: `1px 2px 2px hsl(0deg 0% 0% / 0.001),
+        2px 4px 4px hsl(0deg 0% 0% / 0.02)`,
+        medium: `1px 2px 2px hsl(0deg 0% 0% / 0.001),
+                2px 4px 4px hsl(0deg 0% 0% / 0.02),
+                3px 6px 6px hsl(0deg 0% 0% / 0.03)`
+      },
+      data: {
         active: 'state="active"',
-        on: 'state="on"'
+        on: 'state="on"',
+        checked: "[type='checkbox']:checked"
       },
       aspectRatio: {
         '4/3': '4 / 3',
       },
       fontFamily: {
         display: ["var(--font-sf)", "system-ui", "sans-serif"],
-        default: ["var(--font-inter)", "system-ui", "sans-serif"],
+        default: ["var(--font-poppins)", "system-ui", "sans-serif"],
       },
       animation: {
         // Tooltipanimation: {

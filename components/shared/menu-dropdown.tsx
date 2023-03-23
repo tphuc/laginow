@@ -5,10 +5,10 @@ import Popover from "@/components/shared/popover";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
-import UserDropdown from "./user-dropdown";
+import UserDropdown from "@/components/shared/user-dropdown";
 import { useSignInModal } from "./sign-in-modal";
 import Link from "next/link";
-import NavbarLinks from "./navbar-links";
+import NavbarLinks from "../layout/navbar-links";
 
 
 export default function MenuDropdown() {

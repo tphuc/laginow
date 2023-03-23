@@ -1,7 +1,7 @@
 import Card from "@/components/home/card";
 import Layout from "@/components/layout";
 import { useSession } from "next-auth/react";
-import { useSignInModal } from "@/components/layout/sign-in-modal";
+import { useSignInModal } from "@/components/shared/sign-in-modal";
 import { AddBussiness } from "@/components/layout/add-business";
 
 export default function Page() {

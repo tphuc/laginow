@@ -99,6 +99,7 @@ export const businessRouter = router({
                     content: z.string().optional(),
                     address: z.string().optional(),
                     phone: z.string().optional(),
+                    description: z.string().optional(),
                     images: z.array(
                         z.object({
                             fileId: z.string(),
@@ -137,8 +138,19 @@ export const businessRouter = router({
                     content: z.string().optional(),
                     address: z.string().optional(),
                     phone: z.string().optional(),
-
+                    description: z.string().optional(),
                     images: z.array(
+                        z.object({
+                            fileId: z.string(),
+                            name: z.string(),
+                            url: z.string(),
+                            thumbnailUrl: z.string(),
+                            width: z.number(),
+                            height: z.number(),
+                            size: z.number()
+                        })
+                    ).optional(),
+                    menuImages: z.array(
                         z.object({
                             fileId: z.string(),
                             name: z.string(),
@@ -153,36 +165,43 @@ export const businessRouter = router({
                         {
                             '1': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '2': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '3': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '4': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '5': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '6': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             }),
                             '0': z.object({
                                 isOpen24Hours: z.boolean(),
+                                isClose: z.boolean().optional(),
                                 openingHour: z.number(),
                                 closingHour: z.number()
                             })
@@ -253,8 +272,30 @@ export const businessRouter = router({
                 where: {
                     slug
                 },
+
             })
             return record
+        }),
+
+    getProducts: procedure
+        .input(
+            z.object({
+                slug: z.string()
+            }),
+        )
+        .query(async ({ input }) => {
+            const slug = input.slug
+            let record = await prisma.bussiness.findUnique({
+                where: {
+                    slug
+                },
+                include: {
+                    Product: true
+                }
+
+            })
+            console.log(record)
+            return record?.Product || []
         }),
 
     getAllByUser: protectedProcedure
@@ -378,14 +419,14 @@ export const businessRouter = router({
         procedure.input(
             z.object({
                 slug: z.string()
-            })  
+            })
         ).query(async ({ input }) => {
 
             const ratingCounts = await prisma.review.groupBy({
                 by: ['rating'],
                 _count: true,
-              });
-              
+            });
+
             let res = await prisma.review.aggregate({
                 where: { businessSlug: input.slug },
                 _avg: { rating: true },
@@ -397,7 +438,6 @@ export const businessRouter = router({
                 group: ratingCounts
             }
         })
-
 
 
 

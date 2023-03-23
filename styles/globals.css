@@ -1,9 +1,14 @@
 @tailwind base;
 
+
+@tailwind components;
+@tailwind utilities;
+
 /* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: white;
+  font-family: var(--font-poppins);
 }
 
 /* Chrome, Edge, and Safari */
@@ -21,6 +26,3 @@
   background-color: rgba(0,0,0,0.4);
   border-radius: 14px;
 }
-
-@tailwind components;
-@tailwind utilities;

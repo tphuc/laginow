@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { useModalPhoto } from "../single-photo-view";
+import { cn } from "@/lib/utils";
 
 const PhotosGrid = ({
   show,
@@ -38,7 +39,7 @@ const PhotosGrid = ({
     <Modal showModal={show} setShowModal={setShow}>
       <div className="relative p-[4%] h-full w-full">
         <div onClick={() => setShow(false)} className="absolute hidden md:flex top-2 right-2 flex cursor-pointer items-center text-lg text-slate-800"><X /> Đóng </div>
-        <div className={clsx("grid grid-cols-2 gap-1.5 lg:grid-cols-4 w-full")}>
+        <div className={cn("grid grid-cols-2 gap-1.5 lg:grid-cols-4 w-full")}>
           {list?.map((item, id) => <div onClick={() => {
             setPhotoUrl(item.url)
             setShowSingle(true)

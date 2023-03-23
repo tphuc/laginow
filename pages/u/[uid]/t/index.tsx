@@ -59,7 +59,7 @@ export default function Page() {
                         <div className="ml-1 flex-1">
                             <p className="font-medium text-indigo-900">{item?.title}</p>
                         </div>
-                        <Link href={`/u/${session.user?.id}/t/${item?.slug}`}>
+                        <Link href={`/u/${session.user?.id}/t/${item?.slug}/tong-quan`}>
                         <div className="bg-indigo-900 cursor-pointer flex gap-1 items-center text-white shadow-md text-gray-500 rounded-2xl  px-3 py-1"  >
                             <span>chọn</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" strokeLinejoin="round">

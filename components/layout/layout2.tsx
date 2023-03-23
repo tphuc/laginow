@@ -6,10 +6,11 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
-import { useSignInModal } from "./sign-in-modal";
-import UserDropdown from "./user-dropdown";
-import MenuDropdown from "./menu-dropdown";
+import { useSignInModal } from "@/components/shared/sign-in-modal";
+
+import MenuDropdown from "@/components/shared/menu-dropdown";
 import NavbarLinks from "./navbar-links";
+import UserDropdown from "@/components/shared/user-dropdown";
 
 export default function Layout2({
   meta,
@@ -32,7 +33,7 @@ export default function Layout2({
       <SignInModal />
 
       <div className="mx-5 flex bg-gray-50 h-14 max-w-screen-xl items-center justify-between xl:mx-auto">
-        <Link href="/" className="flex items-center font-display text-2xl">
+        <Link href="/" className="flex items-center  text-2xl">
           {/* <Image
               src="/laginow.png"
               alt="Precedent logo"

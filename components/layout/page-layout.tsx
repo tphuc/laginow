@@ -6,15 +6,15 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import useScroll from "@/lib/hooks/use-scroll";
 import Meta from "./meta";
-import { useSignInModal } from "./sign-in-modal";
-import UserDropdown from "./user-dropdown";
-import MenuDropdown from "./menu-dropdown";
-import NavbarLinks from "./navbar-links";
+import { useSignInModal } from "../shared/sign-in-modal";
+import UserDropdown from "@/components/shared/user-dropdown";
+import MenuDropdown from "../shared/menu-dropdown";
 import clsx from "clsx";
 import * as Tabs from '@radix-ui/react-tabs';
 import { useRouter } from "next/router";
+import { cn, getPosition } from "@/lib/utils";
 
-let tabItemClsx = clsx(
+let tabItemClsx = cn(
   "relative",
   "transition-all",
   // "data-active:border-gray-800 border-b-2 border-transparent border-gray-800 text-gray-600 data-active:text-gray-900",
@@ -40,10 +40,16 @@ export default function PageLayout({
   const { SignInModal, setShowSignInModal } = useSignInModal();
   const scrolled = useScroll(50);
   const router = useRouter();
-  const { tab } = router.query;
-  const parentPath = router.pathname === '/u/[uid]/t/[slug]' ? router.asPath :  router.asPath.slice(0, router.asPath.lastIndexOf('/'))
 
 
+  const urlPath = '/u/123/t/my-slug/tab-123/other/segments';
+  const regexPattern = /(\/\u\/[^\/]+\/t\/[^\/]+\/)([^\/]+)(\/[^\/]+)?/g;
+  const match = regexPattern.exec(router.asPath)
+  const tab = match?.[2]
+
+  const parentPath = match?.[1]
+  console.log(parentPath, match)
+  // const tab = router?.asPath?.slice(getPosition(router.asPath, '/', 5), router?.asPath?.length)
 
   return (
     <>
@@ -57,7 +63,7 @@ export default function PageLayout({
           } z-30 transition-all`}
       >
         <div className="flex h-16 px-5 items-center justify-between xl:mx-auto">
-          <Link href="/" className="flex items-center font-display text-2xl">
+          <Link href="/" className="flex items-center  text-2xl">
             <Image
               src="/logo.png"
               alt="Precedent logo"
@@ -90,26 +96,22 @@ export default function PageLayout({
       </div>
       {/* bg-gradient-to-br from-indigo-50 via-white to-cyan-100 */}
       <main className="w-full bg-gray-100 min-h-[100vh]">
-        <Tabs.Root value={`/${tab?.toString()}`} orientation="vertical">
+        <Tabs.Root value={tab} orientation="vertical">
 
           <Tabs.List className="px-5 py-1.5 sticky top-0 z-[1] flex overflow-x-scroll gap-1 bg-white border-b border-gray-200" aria-label="tabs example">
-            <Link href={parentPath + '/tong-quan'}>
-              <Tabs.Trigger className={tabItemClsx} value="/tong-quan">Tổng quan</Tabs.Trigger>
+            <Link href={parentPath + 'tong-quan'}>
+              <Tabs.Trigger className={tabItemClsx} value="tong-quan">Tổng quan</Tabs.Trigger>
             </Link>
-            <Link href={parentPath + '/trang-tri'}>
-              <Tabs.Trigger className={tabItemClsx} value="/trang-tri">Hiển thị</Tabs.Trigger>
+            <Link href={parentPath + 'thong-tin'}>
+              <Tabs.Trigger className={tabItemClsx} value="thong-tin">Thông tin</Tabs.Trigger>
             </Link>
-            <Link href={router + '/three'}>
-            <Tabs.Trigger className={tabItemClsx} value="3">Three</Tabs.Trigger>
-            </Link>
-            <Tabs.Trigger className={tabItemClsx} value="4">Four</Tabs.Trigger>
-            <Tabs.Trigger className={tabItemClsx} value="5">Five</Tabs.Trigger>
+
           </Tabs.List>
           <div style={{ flex: 1 }} >
             {children}
           </div>
         </Tabs.Root>
-       
+
       </main>
 
     </>
